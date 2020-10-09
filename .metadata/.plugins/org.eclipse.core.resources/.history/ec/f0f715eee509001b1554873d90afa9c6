@@ -1,0 +1,66 @@
+package _03_input;
+
+import com.google.gson.annotations.SerializedName;
+
+public class CultureAndCreativeShopsTable {
+
+	@SerializedName("groupTypeName")
+	private String groupTypeName;	
+	
+	@SerializedName("mainTypeName")
+	private String mainTypeName;
+	
+	@SerializedName("name")
+	private String name;	
+	
+	@SerializedName("representImage")
+	private String representImage;
+	
+	@SerializedName("intro")
+	private String intro;
+	
+	//=====================
+	
+	@SerializedName("cityName")
+	private String cityName;
+	
+	@SerializedName("address")
+	private String address;
+	
+	@SerializedName("longitude")
+	private String longitude;
+	
+	@SerializedName("latitude")
+	private String latitude;
+	
+	@SerializedName("openTime")
+	private String openTime;
+	
+	//==================
+	
+	@SerializedName("phone")
+	private String phone;
+	
+	@SerializedName("fax")
+	private String fax;
+	
+	@SerializedName("email")
+	private String email;
+	
+	@SerializedName("facebook")
+	private String facebook;
+	
+	@SerializedName("website")
+	private String website;
+	
+	//====================
+	
+	@SerializedName("mainTypePk")
+	private String mainTypePk;	
+	
+	@SerializedName("clicks")
+	private String clicks;
+	
+	
+	
+}

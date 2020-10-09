@@ -1,0 +1,173 @@
+package _03_input;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import _35_init.MainTable;
+
+public class CulturalAndCreativeShops_Input {
+
+	private DataSource dataSource;
+
+	public DataSource getDataSource() {//只需get因為只要用不希望被改
+			
+			//lazy init，能有多晚用到就多晚產生，放constructor會先產出佔用記憶體
+			if (dataSource == null) { //不希望重複產生，
+				BasicDataSource ds = new BasicDataSource();
+				ds.setDriverClassName("oracle.jdbc.OracleDriver");
+				ds.setUrl("jdbc:oracle:thin:@//localhost:1521/xepdb1");
+				ds.setUsername("group4");
+				ds.setPassword("oracle");
+				ds.setMaxTotal(50); 
+				ds.setMaxIdle(50);  			
+
+				dataSource=ds; //把BasicDataSource放在屬性上
+			}
+			return dataSource;
+		}
+
+	public ArrayList<CultureAndCreativeShopsTable> readJsonToTable() {	
+		
+			ArrayList<CultureAndCreativeShopsTable> list = new ArrayList<CultureAndCreativeShopsTable>();
+			
+			try (InputStream is = new FileInputStream("C:\\Users\\Student\\Desktop\\Art\\culture and creative shops.json");
+					InputStreamReader isr = new InputStreamReader(is, "UTF8");
+					BufferedReader br = new BufferedReader(isr);	
+					) {
+				int c;
+				StringBuilder strBuilder = new StringBuilder();
+				while ((c = br.read())!=-1) {
+					char d =(char)c;
+					strBuilder.append(String.valueOf(d));
+				}
+				
+				String tableStr= String.valueOf(strBuilder);
+		
+				Gson gson = new Gson();
+				Type listType = new TypeToken<ArrayList<CultureAndCreativeShopsTable>>() {}.getType();
+				ArrayList<CultureAndCreativeShopsTable> jsonArr = gson.fromJson(tableStr,listType);
+				
+				
+				for (CultureAndCreativeShopsTable item: jsonArr) {
+					CultureAndCreativeShopsTable shops = new CultureAndCreativeShopsTable();
+
+					shops.setGroupTypeName(item.getGroupTypeName());
+					shops.setMainTypeName(item.getMainTypeName());
+					shops.setName(item.getName());
+					shops.setRepresentImage(item.getRepresentImage());
+					shops.setIntro(item.getIntro());
+
+					shops.setCityName(item.getCityName());
+					shops.setAddress(item.getAddress());
+					shops.setLongitude(item.getLongitude());
+					shops.setLatitude(item.getLatitude());
+					shops.setOpenTime(item.getOpenTime());
+
+					shops.setPhone(item.getPhone());
+					shops.setFax(item.getFax());
+					shops.setEmail(item.getEmail());
+					shops.setWebsite(item.getWebsite());
+					shops.setMainTypePk(item.getMainTypePk());
+
+					shops.setGroupTypeName(item.getMainTypeName());
+					shops.setMainTypeName(item.getTitle());
+					
+
+				}
+		
+//		
+//		try (Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xepdb1", "group4",
+//				"oracle");
+//				PreparedStatement pstmt = connection.prepareStatement(
+//						"INSERT INTO CS_CULTURE_AND_CREATIVE_SHOPS_TABLE ("
+//						+ "group_type_name, "
+//						+ "main_type_name, "
+//						+ "name, "
+//						+ "represent_image, "
+//						+ "intro, "
+//						+ "city_name, "
+//						+ "address, "
+//						+ "longitude, "
+//						+ "latitude, "
+//						+ "open_time, "
+//						+ "phone, "
+//						+ "fax, "
+//						+ "email, "
+//						+ "facebook, "
+//						+ "website, "
+//						+ "main_type_pk, "
+//						+ "clicks)"
+//								+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+//				InputStream is = new FileInputStream("C:\\Users\\Student\\Desktop\\Art\\culture and creative shops.csv");
+//				BufferedInputStream bis = new BufferedInputStream(is);
+//				InputStreamReader isr = new InputStreamReader(bis,"UTF-8");
+//				BufferedReader br = new BufferedReader(isr);) {
+//			String line = null;
+//			while ((line = br.readLine()) != null) {
+//				
+//				if (line.contains("group_type_name")) {
+//					continue;
+//				}
+//				
+//				System.out.println(line); // 測試讀取
+//				String shops[] = line.split(",");
+				
+//				System.out.println(iris[0]); // 測試讀取
+//				pstmt.setString(1, shops[0]);
+//				pstmt.setString(2, shops[1]);
+//				pstmt.setString(3, shops[2]);
+//				pstmt.setString(4, shops[3]);
+//				pstmt.setString(5, shops[4]);
+
+//				pstmt.setString(6, shops[5]);
+//				pstmt.setString(7, shops[6]);
+//				pstmt.setBigDecimal(8, new BigDecimal(shops[7]));
+//				pstmt.setBigDecimal(9, new BigDecimal(shops[8]));
+//				pstmt.setString(10, shops[9]);
+//				
+//				pstmt.setString(11, shops[10]);
+//				pstmt.setString(12, shops[11]);
+//				pstmt.setString(13, shops[12]);
+//				pstmt.setString(14, shops[13]);
+//				pstmt.setString(15, shops[14]);
+//				
+//				pstmt.setBigDecimal(16, new BigDecimal(shops[15]));
+//				pstmt.setBigDecimal(17, new BigDecimal(shops[16]));
+//				
+//				pstmt.executeUpdate();
+//				pstmt.clearParameters();
+//			}
+//
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+	}
+	}
+}
+

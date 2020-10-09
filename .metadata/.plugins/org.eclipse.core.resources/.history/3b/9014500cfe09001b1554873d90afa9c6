@@ -1,0 +1,140 @@
+package _03_cultureAndCreativeShops_CMS;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+
+import _03_input.CultureAndCreativeShopsTable;
+import _03_searchShowInfo.CategoryTable;
+
+public class CultureAndCreativeShops_DAO {
+
+
+	private DataSource dataSource;
+
+	// getDataSource連線的方法
+	public DataSource getDataSource() {// 只需get因為只要用不希望被改
+
+		// lazy init，能有多晚用到就多晚產生，放constructor會先產出佔用記憶體
+		if (dataSource == null) { // 不希望重複產生，
+			BasicDataSource ds = new BasicDataSource();
+			ds.setDriverClassName("oracle.jdbc.OracleDriver");
+			ds.setUrl("jdbc:oracle:thin:@//localhost:1521/xepdb1");
+			ds.setUsername("group4");
+			ds.setPassword("oracle");
+			ds.setMaxTotal(50);
+			ds.setMaxIdle(50);
+
+			dataSource = ds; // 把BasicDataSource放在屬性上
+		}
+		return dataSource;
+	}
+
+	// 依活動類別搜尋找出以下欄位資料
+	
+
+//	###create new shop
+	
+	public void createNewShopInfo(CultureAndCreativeShopsTable shop) {
+
+		CultureAndCreativeShopsTable NewShopInfo = new CultureAndCreativeShopsTable();
+
+		try {
+			Connection connection = getDataSource().getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"INSERT INTO IRIS (SEPAL_LENGTH, SEPAL_WIDTH, PETAL_LENGTH, PETAL_WIDTH, IRIS_CLASS)\"\r\n" + 
+					"								+ \"VALUES (?,?,?,?,?)\");
+			pstmt.setInt(1, categoryId);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				CategoryTable categoryBarSearch = new CategoryTable();
+				categoryBarSearch.setACT_NO(Integer.toString(rs.getInt("ACT_NO")));
+				categoryBarSearch.setACT_CATEGORY(Integer.toString(rs.getInt("ACT_CATEGORY")));
+				categoryBarSearch.setACT_TITLE(rs.getString("ACT_TITLE"));
+				categoryBarSearch.setACT_DESCRIPTION(rs.getString("ACT_DESCRIPTION"));
+				categoryBarSearch.setACT_STARTDATE(rs.getString("ACT_STARTDATE"));
+				categoryBarSearch.setACT_ENDDATE(rs.getString("ACT_ENDDATE"));
+				categoryTable_20.add(categoryBarSearch);
+			}
+			
+			rs.close();
+			pstmt.clearParameters();
+			pstmt.close();
+			connection.close();
+
+		} catch (Exception e) {
+//			System.err.println("搜尋活動類別時，發生錯誤:" + e);
+			e.printStackTrace();
+		}
+		return categoryTable_20;
+	}
+	
+//	###read shops info 
+	
+	public List<CultureAndCreativeShopsTable> cc_ShopsSearch(String str) {
+
+		String shopsName = str;
+		List<CultureAndCreativeShopsTable> shopsList = new ArrayList();
+
+		
+		// 使用商家名稱，進行模糊搜尋，最後儲存成List型態
+		try {
+			Connection connection = getDataSource().getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(
+					"SELECT * FROM CS_CULTURE_AND_CREATIVE_SHOPS_TABLE where name = ? ");
+				
+			pstmt.setString(1, "%"+shopsName+"%");
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				CultureAndCreativeShopsTable cc_Shop = new CultureAndCreativeShopsTable();
+				
+				cc_Shop.setGroupTypeName((rs.getString("GroupTypeName")));
+				cc_Shop.setMainTypeName((rs.getString("MainTypeName")));
+				cc_Shop.setName((rs.getString("Name")));
+				cc_Shop.setRepresentImage((rs.getString("RepresentImage")));
+				cc_Shop.setIntro((rs.getString("GroupIntro")));
+
+				cc_Shop.setCityName((rs.getString("CityName")));
+				cc_Shop.setAddress((rs.getString("Address")));
+				cc_Shop.setLongitude(Double.toString(rs.getDouble("Longitude")));
+				cc_Shop.setLatitude(Double.toString(rs.getDouble("Latitude")));
+				cc_Shop.setOpenTime((rs.getString("OpenTime")));
+
+				cc_Shop.setPhone((rs.getString("Phone")));
+				cc_Shop.setFax((rs.getString("Fax")));
+				cc_Shop.setEmail((rs.getString("Email")));
+				cc_Shop.setFacebook((rs.getString("Facebook")));
+				cc_Shop.setWebsite((rs.getString("Website")));
+
+				cc_Shop.setMainTypePk(Integer.toString(rs.getInt("MainTypePk")));
+				cc_Shop.setClicks(Integer.toString(rs.getInt("Clicks")));
+
+				shopsList.add(cc_Shop);
+			}
+			
+			rs.close();
+			pstmt.clearParameters();
+			pstmt.close();
+			connection.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return shopsList;
+	}
+	
+	//###update shops info 
+	
+	
+	//###delete shops info 
+	
+	
+}

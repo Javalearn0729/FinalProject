@@ -1,0 +1,2 @@
+127.0.0.1 - - [09/Oct/2020:12:04:03 +0800] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [09/Oct/2020:12:04:04 +0800] "GET /AAART/WEB-INF/classes/_03_input/CulturalAndCreativeShops_Input.java HTTP/1.1" 404 682

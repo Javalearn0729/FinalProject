@@ -1,0 +1,11 @@
+package _03_input;
+
+public class ExecuteInput {
+
+	public static void main(String[] args) {
+		
+		CulturalAndCreativeShops_Input Input = new CulturalAndCreativeShops_Input();
+
+	}
+
+}

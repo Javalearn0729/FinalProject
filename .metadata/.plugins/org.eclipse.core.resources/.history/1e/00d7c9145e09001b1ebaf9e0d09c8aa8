@@ -1,0 +1,28 @@
+package _03_cultureAndCreativeShops_CMS;
+
+public class CultureAndCreativeShopsTable {
+
+	private String group_type_name;	
+	private String main_type_name;
+	private String name;	
+	private String represent_Image;
+	private String intro;
+	
+	private String city_Name;
+	private String address;
+	private String longitude;
+	private String latitude;
+	private String open_Time;
+	
+	private String phone;
+	private String fax;
+	private String email;
+	private String facebook;
+	private String website;
+	
+	private String main_Type_Pk;	
+	private String clicks;	
+	
+	
+	
+}

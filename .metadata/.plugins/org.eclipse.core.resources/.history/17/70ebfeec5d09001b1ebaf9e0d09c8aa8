@@ -1,0 +1,28 @@
+package _03_cultureAndCreativeShops_CMS;
+
+public class CultureAndCreativeShopsTable {
+
+	private String group_type_name;	
+	private String main_type_name;
+	private String name;	
+	private String represent_image;
+	private String intro;
+	
+	private String city_name;
+	private String address;
+	private String longitude;
+	private String latitude;
+	private String ACT_ENDDATE;
+	
+	private String ACT_ENDDATE;
+	private String ACT_ENDDATE;
+	private String ACT_ENDDATE;
+	private String ACT_ENDDATE;
+	private String ACT_ENDDATE;
+	
+	private String ACT_ENDDATE;	
+	private String ACT_ENDDATE;	
+	
+	
+	
+}

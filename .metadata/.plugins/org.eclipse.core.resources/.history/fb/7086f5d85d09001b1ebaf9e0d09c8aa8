@@ -1,0 +1,19 @@
+package _03_cultureAndCreativeShops_CMS;
+
+public class CultureAndCreativeShopsTable {
+
+	private String GROUP_TYPE_NAME;
+	
+	private String ACT_CATEGORY;
+	
+	private String ACT_TITLE;
+	
+	private String ACT_DESCRIPTION;
+	
+	private String ACT_STARTDATE;
+	
+	private String ACT_ENDDATE;
+	
+	
+	
+}
